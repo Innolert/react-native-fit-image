@@ -15,6 +15,10 @@ const propTypes = {
   ]),
   originalHeight: PropTypes.number,
   originalWidth: PropTypes.number,
+  defaultImageOnError: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+  ]),
 };
 
 const styles = StyleSheet.create({
@@ -53,6 +57,7 @@ class FitImage extends Image {
       layoutWidth: undefined,
       originalWidth: undefined,
       originalHeight: undefined,
+      isError: false,
     };
 
     this.getHeight = this.getHeight.bind(this);
@@ -62,6 +67,7 @@ class FitImage extends Image {
     this.getStyle = this.getStyle.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.onLoadStart = this.onLoadStart.bind(this);
+    this.onError = this.onError.bind(this);
     this.renderChildren = this.renderChildren.bind(this);
     this.resize = this.resize.bind(this);
     this.setStateSize = this.setStateSize.bind(this);
@@ -69,10 +75,12 @@ class FitImage extends Image {
 
   componentDidMount() {
     if (this.props.originalWidth && this.props.originalHeight) return;
-    if (!this.props.source.uri) return;
 
-    Image.getSize(this.props.source.uri, (originalWidth, originalHeight) => {
+    let uri = this.state.isError ? this.props.defaultImageOnError : this.props.source.uri
+    Image.getSize(uri, (originalWidth, originalHeight) => {
       this.setStateSize(originalWidth, originalHeight);
+    }, (err) => {
+      this.setStateSize(300, 300);
     });
   }
 
@@ -88,6 +96,14 @@ class FitImage extends Image {
     if (this.isFirstLoad) {
       this.setState({ isLoading: true });
       this.isFirstLoad = false;
+    }
+  }
+
+  onError() {
+    this.setState({ isLoading: false, isError: true });
+
+    if (typeof this.props.onError === 'function') {
+      this.props.onError();
     }
   }
 
@@ -160,7 +176,8 @@ class FitImage extends Image {
         onLayout={this.resize}
         onLoad={this.onLoad}
         onLoadStart={this.onLoadStart}
-        source={this.props.source}
+        onError={this.onError}
+        source={this.state.isError ? this.props.defaultImageOnError : this.props.source}
         style={[
           this.style,
           this.getStyle(),
@@ -172,6 +189,11 @@ class FitImage extends Image {
       </Image>
     );
   }
+}
+
+// Defaults for props
+FitImage.defaultProps = {
+  defaultImageOnError: require('./no-image-icon.jpg')
 }
 
 FitImage.propTypes = propTypes;

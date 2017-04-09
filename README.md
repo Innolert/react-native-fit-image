@@ -63,6 +63,26 @@ var styles = StyleSheet.create({
   source={require('fit-image.png')}
   style={styles.fitImageWithSize}
 />
+
+// draws image to fit inherited space automatically and shows indicator while image is loading, if the image not loaded put your custom default image localy
+<FitImage
+  indicator
+  indicatorColor="white" // react native colors or color codes like #919191
+  indicatorSize="large" // (small | large) or integer
+  source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+  style={styles.fitImage}
+  defaultImageOnError={require('fit-image.png')}
+/>
+
+// draws image to fit inherited space automatically and shows indicator while image is loading, if the image not loaded put your custom default image from web
+<FitImage
+  indicator
+  indicatorColor="white" // react native colors or color codes like #919191
+  indicatorSize="large" // (small | large) or integer
+  source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+  style={styles.fitImage}
+  defaultImageOnError={{ uri: 'https://someurl.com/DEFAULT.png' }}
+/>
 ```
 
 ## Example
