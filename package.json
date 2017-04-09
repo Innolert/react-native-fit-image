@@ -2,15 +2,14 @@
   "name": "react-native-fit-image",
   "version": "1.4.5",
   "description": "Responsive image component to fit perfectly itself.",
-  "main": "dist/FitImage.js",
+  "main": "index.js",
   "scripts": {
-    "build": "babel src -d dist",
-    "build-and-publish": "npm run build && npm publish",
-    "test": "tape -r babel-register -r react-native-mock/mock test/**/*.js | tap-diff"
+    "lint": "eslint --ext .js .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/huiseoul/react-native-fit-image.git"
+    "url": "git+https://github.com/Den368/react-native-fit-image.git"
   },
   "keywords": [
     "React",
