@@ -2,7 +2,7 @@
   "name": "react-native-fit-image",
   "version": "1.4.5",
   "description": "Responsive image component to fit perfectly itself.",
-  "main": "index.js",
+  "main": "src/FitImage.js",
   "scripts": {
     "lint": "eslint --ext .js .",
     "test": "echo \"Error: no test specified\" && exit 1"
